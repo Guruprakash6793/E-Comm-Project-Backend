@@ -91,8 +91,8 @@ app.get("/revenue/Dashboard", async (req,res)=>{
  const client = await MongoClient.connect(
   'mongodb://localhost:27017/'
 ); 
-const coll = client.db('clothstore').collection('salesdetails');
-const cursor = coll.find();
+const coll = await client.db('clothstore').collection('salesdetails');
+const cursor = await coll.find();
 const result = await cursor.toArray();
 await client.close();
 
@@ -105,15 +105,11 @@ await client.close();
 
 app.get("/api3/orderstatus",async (req,res)=>{
 
-   /*  res.send("order processing") */
-
- 
-
 const client = await MongoClient.connect(
   'mongodb://localhost:27017/'
 );
-const coll = client.db('clothstore').collection('Orders');
-const cursor = coll.find();
+const coll = await client.db('clothstore').collection('Orders');
+const cursor = await coll.find();
 const result = await cursor.toArray();
 await client.close();
 res.json({data : result})
