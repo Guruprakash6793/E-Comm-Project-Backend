@@ -16,7 +16,7 @@ app.use(cors())
 
 const connectDB =async ()=>{
   try{
-    await mongoose.connect("mongodb://localhost:27017/clothstore",{});
+    await mongoose.connect("mongodb+srv://guruprakashg:Indi%40%40123@cluster0.x1q0v8s.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",{});
     console.log("db connected")
          
   }
@@ -30,38 +30,12 @@ const connectDB =async ()=>{
    res.send("its working don't worry")
 })
 ////////////////////////////////////////
-/* 
-const User = mongoose.model("NewUsers",
-new mongoose.Schema({
-  name:String,
-  email:String,
-  password:String
 
-}))
-app.post("/api/register", async (req,res)=>{
-    const newUser = new User(req.body)
-    const saveUser = await newUser.save();
-    res.send(saveUser);
-})
-/////////
-app.post("/api/login",(req,res)=>{
-  const {email,password} = req.body;
-  User.findOne({email:email})
-  .then(user => {
-    if(user){
-      if(user.password === password){
-        res.json('Success')
-      }else{
-        (err)=>console.log(err)
-      }
-    }
 
-  })
-}) */
 // dashboard revenue collection
 
 app.get("/revenue/Dashboard", async (req,res)=>{
-    /* res.send("hello buddy") */
+
     
     const client = await MongoClient.connect(
       'mongodb://localhost:27017/'
@@ -72,6 +46,20 @@ app.get("/revenue/Dashboard", async (req,res)=>{
     await client.close();   
         res.json({data : result})    
     }) 
+
+    // profit chart
+    app.get("/profit/profitchart", async (req,res)=>{
+
+    
+      const client = await MongoClient.connect(
+        'mongodb://localhost:27017/'
+      ); 
+      const coll = client.db('clothstore').collection('salesdetails');
+      const cursor = coll.find();
+      const result = await cursor.toArray();
+      await client.close();   
+          res.json({data : result})    
+      }) 
     //sales analytics 
 
  const Sales = mongoose.model("salesdetails",new mongoose.Schema({
